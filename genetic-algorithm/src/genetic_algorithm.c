@@ -3,7 +3,19 @@
 #include <time.h>
 #include <math.h>
 
+#ifdef _WIN32
+#include <direct.h>
+#define make_dir(path) _mkdir(path)
+#else
+#include <sys/stat.h>
+#define make_dir(path) mkdir(path, 0755)
+#endif
+
 #define BINARY 2
+
+// Paths are relative to the project directory (genetic-algorithm/)
+#define OUTPUT_DIR "output"
+#define OUTPUT_CSV OUTPUT_DIR "/output.csv"
 
 // 0 to n exclusive
 unsigned generate_rand(unsigned n) {
@@ -284,9 +296,11 @@ void evaluate(unsigned pop, unsigned gen, unsigned chr_bin[pop][gen], float* chr
 
 
 void create_csv(unsigned size, float* avg, float* best) {
-    FILE* file = fopen("../output/output.csv", "w");
+    make_dir(OUTPUT_DIR); // no-op if the directory already exists
+
+    FILE* file = fopen(OUTPUT_CSV, "w");
     if(file == NULL) {
-        printf("Error opening file for writing.\n");
+        printf("Error opening %s for writing. Run this binary from the genetic-algorithm/ directory.\n", OUTPUT_CSV);
         return;
     }
 
@@ -607,4 +621,4 @@ int main() {
 // 20                   01001101             77.000000            13706.000000         0.047148             1.000000            
 
 // Average: 14535.200195
-// Best: 16256.000000
+// Best: 16256.000000

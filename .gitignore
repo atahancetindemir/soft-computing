@@ -1,0 +1,22 @@
+# Compiled binaries
+bin/
+*.o
+*.out
+*.exe
+ga
+sa
+
+# Generated run artifacts (CSV + plots)
+output/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
